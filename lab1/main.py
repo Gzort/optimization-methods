@@ -155,7 +155,32 @@ class Simplex:
                 print("Решений нет!")
                 return
 
-            # Удаляем колонки искусственных переменных
+            # Проверяем, не осталась ли искусственная переменная в базисе
+            rows_to_delete = []
+            for i in range(self.rows_count):
+                if self.basis[i] in self.isk_vars:
+                    # Пытаемся выгнать ее из базиса (ищем неискусственную переменную с коэффициентом != 0)
+                    swapped = False
+                    for j in range(len(self.names)):
+                        if j not in self.isk_vars and self.table[i, j] != 0:
+                            print(
+                                f"Вырожденный случай: выводим из базиса {self.names[self.basis[i]]}, вводим {self.names[j]}")
+                            self.recalculate(i, j)
+                            swapped = True
+                            break
+
+                    # Если все коэффициенты у нормальных переменных = 0, строка избыточна
+                    if not swapped:
+                        print(f"Вырожденный случай: строка {i} избыточна (линейно зависима). Удаляем её.")
+                        rows_to_delete.append(i)
+
+            # Удаляем избыточные строки с конца
+            for i in reversed(rows_to_delete):
+                self.table = np.delete(self.table, i, axis=0)
+                self.basis.pop(i)
+                self.rows_count -= 1
+
+            # Теперь безопасно удаляем колонки искусственных переменных
             keep = [i for i in range(len(self.names)) if i not in self.isk_vars] + [-1]
             self.table = self.table[:, keep]
             self.names = [n for i, n in enumerate(self.names) if i not in self.isk_vars]
