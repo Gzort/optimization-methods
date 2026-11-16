@@ -267,8 +267,8 @@ class BellmanSolver:
             if self._heavy_done % PROGRESS_EVERY == 0:
                 spent = time.perf_counter() - self._t0
                 left = spent / self._heavy_done * max(self._heavy_total - self._heavy_done, 0)
-                print(f"  слой {stage + 1}: {self._heavy_done} состояний обработано, "
-                      f"прошло {spent / 60:.0f} мин, осталось ~{left / 60:.0f} мин",
+                print(f"{self._heavy_done} состояний обработано, "
+                      f"прошло {spent / 60:.0f} мин, осталось {left / 60:.0f} мин",
                       flush=True)
         return value
 

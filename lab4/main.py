@@ -47,7 +47,7 @@ def format_solution(sol: Solution) -> str:
         f"Значение критерия в корне W1*(Xi_1) = {sol.root_value:.2f}",
         f"Ожидаемый доход E[D] = {sol.expected_income:.2f}; "
         f"худший D = {sol.worst_income:.2f}; лучший D = {sol.best_income:.2f}",
-        f"Состояний по слоям: {sol.n_states} (слой -> количество; последний слой решается на лету)",
+        f"Состояний по слоям: {sol.n_states} (слой -> количество;)",
         f"Время решения: {sol.elapsed_sec:.1f} c",
         "",
         "Оптимальное управление на этапе 1:",
